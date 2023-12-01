@@ -42,7 +42,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
       "User-Contact": contact.text.toString(),
       "User-Password": password.text.toString(),
     };
-    FirebaseFirestore.instance.collection("userData").doc(userId).set(userDetail);
+       try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: email.text.toString(), password: pass.text.toString());
+      await FirebaseFirestore.instance.collection("userData").doc(userId).set(userDetails);
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> Login()));
+      // SharedPreferences userLoginDetails = await SharedPreferences.getInstance();
+      // userLoginDetails.setBool("UserLoggedIn", true);
+    }on FirebaseAuthException catch(ex){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${ex.code.toString()}')));
+    }
   }
 
   File? userProfile;
