@@ -181,8 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         if(_formkey.currentState!.validate()){
                                           print(email.text.toString());
                                           print(password.text.toString());
-                                          email.clear();
-                                          password.clear();
+                                          
                                           showDialog(context: context, builder: (context){
                                             return AlertDialog(
                                               title: const Text("User Login"),
