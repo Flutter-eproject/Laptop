@@ -31,8 +31,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
   void userInsert({ String? imageUrl})async{
     String userId = Uuid().v1();
-
-
     Map<String, dynamic> userDetail = {
       "User-Id": userId,
       "User-Name": firstname.text.toString(),
