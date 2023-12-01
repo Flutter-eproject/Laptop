@@ -1,7 +1,13 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:laptop/Firebase_Auth/Login_Screen.dart';
+import 'package:uuid/uuid.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -13,8 +19,33 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController firstname = TextEditingController();
   TextEditingController lastname = TextEditingController();
+  TextEditingController contact = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+
+  void userInsertwithImage()async{
+    UploadTask uploadTask = FirebaseStorage.instance.ref().child("Images").child(Uuid().v1()).putFile(userProfile!);
+    TaskSnapshot taskSnapshot = await uploadTask;
+    String downloadUrl = await taskSnapshot .ref.getDownloadURL();
+    userInsert(imageUrl: downloadUrl);
+  }
+  void userInsert({ String? imageUrl})async{
+    String userId = Uuid().v1();
+
+
+    Map<String, dynamic> userDetail = {
+      "User-Id": userId,
+      "User-Name": firstname.text.toString(),
+      "User-LName": lastname.text.toString(),
+      "User-Email": email.text.toString(),
+      "User-Image": imageUrl,
+      "User-Contact": contact.text.toString(),
+      "User-Password": password.text.toString(),
+    };
+    FirebaseFirestore.instance.collection("userData").doc(userId).set(userDetail);
+  }
+
+  File? userProfile;
 
   bool passHide = true;
 
@@ -23,7 +54,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void dispose() {
     // TODO: implement dispose
+    firstname.dispose();
+    lastname.dispose();
     email.dispose();
+    contact.dispose();
     password.dispose();
   }
   @override
@@ -81,6 +115,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             color: Colors.white
                         ),),
                       ),
+                      const SizedBox(height: 5,),
+
+                          GestureDetector(
+                            onTap: ()async{
+                              XFile? selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+                              if (selectedImage != null){
+                                File convertedImage = File(selectedImage.path);
+                                setState(() {
+                                  userProfile = convertedImage;
+                                });
+                              }
+                              else{
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Image Not Selected")));
+                              }
+                            },
+                            child: CircleAvatar(
+                              radius: 40,
+                              backgroundColor: Colors.blue,
+                              backgroundImage: userProfile!=null?FileImage(userProfile!):null,
+                            ),
+                          ),
+
                       const SizedBox(height: 10,),
                       Column(
                         children: [
@@ -88,7 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               children:[
                                 Container(
                                   width: 300,
-                                  height: 400,
+                                  height: 480,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                     color: Colors.white,
@@ -161,6 +217,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           ),
                                           Container(
                                             padding: const EdgeInsets.all(8.0),
+                                            decoration: const BoxDecoration(
+                                                border:  Border(bottom: BorderSide(color: Color.fromRGBO(6, 27, 28,1)))
+                                            ),
+                                            child: TextFormField(
+                                              controller: contact,
+                                              validator: (value){
+                                                if(value == null || value.isEmpty || value == " "){
+                                                  return "Contact is Required";
+                                                }
+                                              },
+                                              decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintText: "Enter Contact Number",
+                                                hintStyle: TextStyle(color: Colors.grey[700]),
+                                                prefixIcon: const Icon(Icons.contact_page_outlined,color: Color.fromRGBO(6, 27, 28,1),),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            padding: const EdgeInsets.all(8.0),
                                             child: TextFormField(
 
                                               controller: password,
@@ -196,22 +272,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     GestureDetector(
                                         onTap: (){
                                           createUser();
+                                          userInsertwithImage();
                                           if(_formkey.currentState!.validate()){
-
                                             print(firstname.text.toString());
                                             print(lastname.text.toString());
                                             print(email.text.toString());
+                                            print(contact.text.toString());
                                             print(password.text.toString());
                                             firstname.clear();
                                             lastname.clear();
                                             email.clear();
+                                            contact.clear();
                                             password.clear();
 
                                             Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
                                             child: const Text("Login");
                                           }
                                         }, child: Container(
-                                      margin: EdgeInsets.only(left: 50 , top: 380),
+                                      margin: EdgeInsets.only(left: 50 , top: 450),
                                       width: 200,
                                       height: 50,
                                       decoration: BoxDecoration(
