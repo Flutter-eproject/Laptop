@@ -10,6 +10,24 @@ class DescriptionScreen extends StatefulWidget {
 class _DescriptionScreenState extends State<DescriptionScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            Stack(
+                children:[
+                  Container(
+                    width: double.infinity,
+                      height: 250,
+                    color: Colors.red,
+                  )
+            ] )
+          ],
+        ),
+
+      ),
+
+    );
   }
 }

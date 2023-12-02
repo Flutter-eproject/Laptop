@@ -19,6 +19,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+
   TextEditingController firstname = TextEditingController();
   TextEditingController lastname = TextEditingController();
   TextEditingController contact = TextEditingController();
@@ -42,7 +43,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       "User-Contact": contact.text.toString(),
       "User-Password": password.text.toString(),
     };
-    FirebaseFirestore.instance.collection("userData").doc(userId).set(userDetail);
+      await FirebaseFirestore.instance.collection("userData").doc(userId).set(userDetail);
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
   }
 
   File? userProfile;
@@ -60,6 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     contact.dispose();
     password.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
 
@@ -70,6 +73,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${ex.code.toString()}")));
       }
     }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -117,25 +121,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 5,),
 
-                          GestureDetector(
-                            onTap: ()async{
-                              XFile? selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-                              if (selectedImage != null){
-                                File convertedImage = File(selectedImage.path);
-                                setState(() {
-                                  userProfile = convertedImage;
-                                });
-                              }
-                              else{
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Image Not Selected")));
-                              }
-                            },
-                            child: CircleAvatar(
-                              radius: 40,
-                              backgroundColor: Colors.blue,
-                              backgroundImage: userProfile!=null?FileImage(userProfile!):null,
-                            ),
-                          ),
+                      GestureDetector(
+                        onTap: ()async{
+                          XFile? selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+                          if (selectedImage != null){
+                            File convertedImage = File(selectedImage.path);
+                            setState(() {
+                              userProfile = convertedImage;
+                            });
+                          }
+                          else{
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Image Not Selected")));
+                          }
+                        },
+                        child: CircleAvatar(
+                          radius: 40,
+                          backgroundColor: Colors.blue,
+                          backgroundImage: userProfile!=null?FileImage(userProfile!):null,
+                        ),
+                      ),
 
                       const SizedBox(height: 10,),
                       Column(
@@ -151,119 +155,119 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
 
 
-                                    child: Form(
-                                      key: _formkey,
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.all(8.0),
-                                            decoration: const BoxDecoration(
-                                                border:  Border(bottom: BorderSide(color: Color.fromRGBO(6, 27, 28,1)))
-                                            ),
-                                            child: TextFormField(
-                                              controller: firstname,
-                                              validator: (value){
-                                                if(value == null || value.isEmpty || value == " "){
-                                                  return "Name is Required";
-                                                }
-                                              },
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: "Enter Name",
-                                                hintStyle: TextStyle(color: Colors.grey[700]),
-                                                prefixIcon: const Icon(Icons.person,color: Color.fromRGBO(6, 27, 28,1),),
-                                              ),
+                                  child: Form(
+                                    key: _formkey,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          decoration: const BoxDecoration(
+                                              border:  Border(bottom: BorderSide(color: Color.fromRGBO(6, 27, 28,1)))
+                                          ),
+                                          child: TextFormField(
+                                            controller: firstname,
+                                            validator: (value){
+                                              if(value == null || value.isEmpty || value == " "){
+                                                return "Name is Required";
+                                              }
+                                            },
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText: "Enter Name",
+                                              hintStyle: TextStyle(color: Colors.grey[700]),
+                                              prefixIcon: const Icon(Icons.person,color: Color.fromRGBO(6, 27, 28,1),),
                                             ),
                                           ),
-                                          Container(
-                                            padding: const EdgeInsets.all(8.0),
-                                            decoration: const BoxDecoration(
-                                                border:  Border(bottom: BorderSide(color: Color.fromRGBO(6, 27, 28,1)))
-                                            ),
-                                            child: TextFormField(
-                                              controller: lastname,
-                                              validator: (value){
-                                                if(value == null || value.isEmpty || value == " "){
-                                                  return "Last Name is Required";
-                                                }
-                                              },
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: "Enter Last Name",
-                                                hintStyle: TextStyle(color: Colors.grey[700]),
-                                                prefixIcon: const Icon(Icons.person_2_outlined,color: Color.fromRGBO(6, 27, 28,1),),
-                                              ),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          decoration: const BoxDecoration(
+                                              border:  Border(bottom: BorderSide(color: Color.fromRGBO(6, 27, 28,1)))
+                                          ),
+                                          child: TextFormField(
+                                            controller: lastname,
+                                            validator: (value){
+                                              if(value == null || value.isEmpty || value == " "){
+                                                return "Last Name is Required";
+                                              }
+                                            },
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText: "Enter Last Name",
+                                              hintStyle: TextStyle(color: Colors.grey[700]),
+                                              prefixIcon: const Icon(Icons.person_2_outlined,color: Color.fromRGBO(6, 27, 28,1),),
                                             ),
                                           ),
-                                          Container(
-                                            padding: const EdgeInsets.all(8.0),
-                                            decoration: const BoxDecoration(
-                                                border:  Border(bottom: BorderSide(color: Color.fromRGBO(6, 27, 28,1)))
-                                            ),
-                                            child: TextFormField(
-                                              controller: email,
-                                              validator: (value){
-                                                if(value == null || value.isEmpty || value == " "){
-                                                  return "Email is Required";
-                                                }
-                                              },
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: "Enter Email",
-                                                hintStyle: TextStyle(color: Colors.grey[700]),
-                                                prefixIcon: const Icon(Icons.email,color: Color.fromRGBO(6, 27, 28,1),),
-                                              ),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          decoration: const BoxDecoration(
+                                              border:  Border(bottom: BorderSide(color: Color.fromRGBO(6, 27, 28,1)))
+                                          ),
+                                          child: TextFormField(
+                                            controller: email,
+                                            validator: (value){
+                                              if(value == null || value.isEmpty || value == " "){
+                                                return "Email is Required";
+                                              }
+                                            },
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText: "Enter Email",
+                                              hintStyle: TextStyle(color: Colors.grey[700]),
+                                              prefixIcon: const Icon(Icons.email,color: Color.fromRGBO(6, 27, 28,1),),
                                             ),
                                           ),
-                                          Container(
-                                            padding: const EdgeInsets.all(8.0),
-                                            decoration: const BoxDecoration(
-                                                border:  Border(bottom: BorderSide(color: Color.fromRGBO(6, 27, 28,1)))
-                                            ),
-                                            child: TextFormField(
-                                              controller: contact,
-                                              validator: (value){
-                                                if(value == null || value.isEmpty || value == " "){
-                                                  return "Contact is Required";
-                                                }
-                                              },
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: "Enter Contact Number",
-                                                hintStyle: TextStyle(color: Colors.grey[700]),
-                                                prefixIcon: const Icon(Icons.contact_page_outlined,color: Color.fromRGBO(6, 27, 28,1),),
-                                              ),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          decoration: const BoxDecoration(
+                                              border:  Border(bottom: BorderSide(color: Color.fromRGBO(6, 27, 28,1)))
+                                          ),
+                                          child: TextFormField(
+                                            controller: contact,
+                                            validator: (value){
+                                              if(value == null || value.isEmpty || value == " "){
+                                                return "Contact is Required";
+                                              }
+                                            },
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText: "Enter Contact Number",
+                                              hintStyle: TextStyle(color: Colors.grey[700]),
+                                              prefixIcon: const Icon(Icons.contact_page_outlined,color: Color.fromRGBO(6, 27, 28,1),),
                                             ),
                                           ),
-                                          Container(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextFormField(
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: TextFormField(
 
-                                              controller: password,
-                                              validator: (value){
-                                                if(value == null || value.isEmpty || value == " "){
-                                                  return "Password is required";
-                                                }
-                                              },
-                                              obscureText: passHide==true?true:false,
-                                              obscuringCharacter: "*",
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: "Enter Password",
-                                                suffixIcon: IconButton(onPressed: (){
-                                                  setState(() {
-                                                    passHide =! passHide;
-                                                  });
-                                                }, icon: passHide==true? Icon(Icons.remove_red_eye):Icon(Icons.key)),
-                                                hintStyle: TextStyle(color: Colors.grey[700]),
-                                                prefixIcon: const Icon(Icons.password,color: Color.fromRGBO(6, 27, 28,1),),
-                                              ),
+                                            controller: password,
+                                            validator: (value){
+                                              if(value == null || value.isEmpty || value == " "){
+                                                return "Password is required";
+                                              }
+                                            },
+                                            obscureText: passHide==true?true:false,
+                                            obscuringCharacter: "*",
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText: "Enter Password",
+                                              suffixIcon: IconButton(onPressed: (){
+                                                setState(() {
+                                                  passHide =! passHide;
+                                                });
+                                              }, icon: passHide==true? Icon(Icons.remove_red_eye):Icon(Icons.key)),
+                                              hintStyle: TextStyle(color: Colors.grey[700]),
+                                              prefixIcon: const Icon(Icons.password,color: Color.fromRGBO(6, 27, 28,1),),
                                             ),
                                           ),
+                                        ),
 
-                                        ],
-                                      ),
+                                      ],
                                     ),
+                                  ),
 
                                 ),
 

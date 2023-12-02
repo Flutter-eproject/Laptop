@@ -17,7 +17,7 @@ class profileScreen extends StatefulWidget {
 class _profileScreenState extends State<profileScreen> {
   Future getUser()async{
     SharedPreferences userEmail = await SharedPreferences.getInstance();
-    return userEmail.getString("uEmail");
+    return userEmail.getString("User-Email");
   }
   String uEmail = '';
   @override
@@ -44,7 +44,7 @@ class _profileScreenState extends State<profileScreen> {
               SizedBox(height: 22,),
 
               StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection("userData").where('email',isEqualTo: uEmail).snapshots(),
+                  stream: FirebaseFirestore.instance.collection("userData").where('User-Email',isEqualTo: uEmail).snapshots(),
                   builder: (context, snapshot) {
                     if(snapshot.connectionState == ConnectionState.waiting){
                       return CircularProgressIndicator();
@@ -60,10 +60,10 @@ class _profileScreenState extends State<profileScreen> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
 
-                          String userID = snapshot.data!.docs[index].id;
-                          String userName = snapshot.data!.docs[index]['firstname'];
-                          String userImage = snapshot.data!.docs[index]['user-image'];
-                          String userEmail = snapshot.data!.docs[index]['email'];
+                          String userID = snapshot.data!.docs[index]['User-Id'];
+                          String userName = snapshot.data!.docs[index]['User-Name'];
+                          String userImage = snapshot.data!.docs[index]['User-Image'];
+                          String userEmail = snapshot.data!.docs[index]['User-Email'];
 
 
                           return GestureDetector(
