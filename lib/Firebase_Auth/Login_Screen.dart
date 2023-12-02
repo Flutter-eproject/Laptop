@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laptop/Firebase_Auth/Register_Screen.dart';
 import 'package:laptop/Firebase_Auth/update_pass.dart';
+import 'package:laptop/Profile_Firebase_Firestore/Profile_Screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Home_Screen.dart';
 
@@ -17,18 +19,17 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  void login_user()async{
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email.text.toString(), password: password.text.toString());
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
+  void userLogin()async{
+    try{
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.toString(), password: password.text.toString());
+      Navigator.push(context, MaterialPageRoute(builder: (context) => profileScreen(),));
       // SharedPreferences userLoginDetails = await SharedPreferences.getInstance();
-      // userLoginDetails.setString("UserLoggedIn", email.text.toString());
-    }on FirebaseAuthException catch(ex){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${ex.code.toString()}')));
+      // userLoginDetails.setBool("userLoggedIn", true);
+      // userLoginDetails.setString('uEmail', email.text.toString());
+    } on FirebaseAuthException catch (ex){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${ex.code.toString()}")));
     }
   }
-
   bool passHide = true;
 
   var _formkey = GlobalKey<FormState>();
@@ -175,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: [
                                   GestureDetector(
                                       onTap: (){
-                                        login_user();
+
 
                                         if(_formkey.currentState!.validate()){
                                           print(email.text.toString());
@@ -188,13 +189,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                               content: const Text("Login Succeful"),
                                               actions: [
                                                 ElevatedButton(onPressed: (){
-
+                                                  userLogin();
 
                                                 }, child: const Text("Login")),
                                                 OutlinedButton(onPressed: (){
                                                   Navigator.pop(context);
-                                                  email.clear();
-                                                  password.clear();
                                                 }, child: const Text("Cancel"))
                                               ],
                                             );

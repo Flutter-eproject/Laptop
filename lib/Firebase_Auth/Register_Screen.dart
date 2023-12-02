@@ -9,6 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:laptop/Firebase_Auth/Login_Screen.dart';
 import 'package:uuid/uuid.dart';
 
+import '../Profile_Firebase_Firestore/Profile_Screen.dart';
+
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -277,13 +279,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             print(email.text.toString());
                                             print(contact.text.toString());
                                             print(password.text.toString());
-                                            firstname.clear();
-                                            lastname.clear();
-                                            email.clear();
-                                            contact.clear();
-                                            password.clear();
 
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => profileScreen(),));
                                             child: const Text("Login");
                                           }
                                         }, child: Container(
