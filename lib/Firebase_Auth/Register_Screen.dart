@@ -100,7 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         margin: const EdgeInsets.only(left: 30 , top: 20),
                         width: double.infinity,
                         child: Text("Register" , style: GoogleFonts.abyssinicaSil(
-                            fontSize: 50,
+                            fontSize: 25,
                             fontWeight: FontWeight.w700,
                             color: Colors.white
                         ),),

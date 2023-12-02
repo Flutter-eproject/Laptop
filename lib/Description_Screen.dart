@@ -45,7 +45,7 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
                       child: Text("Laptop Name", style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 30
+                        fontSize: 25
                       ), ),
                     ),
                     SizedBox(width: 40,),
@@ -74,7 +74,7 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
                       child: Text("Price: 55,0000 PKR" , style: GoogleFonts.poppins(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20
+                          fontSize: 15
                       ), ),
                     )
                   ],

@@ -35,7 +35,10 @@ class _profileScreenState extends State<profileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      backgroundColor: Colors.white,
+      body:
+
+      SafeArea(
         top: true,
         child: SingleChildScrollView(
           physics: const ScrollPhysics(),

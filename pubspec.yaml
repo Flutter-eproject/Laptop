@@ -43,6 +43,8 @@ dependencies:
   shared_preferences: ^2.2.2
   firebase_storage: ^11.5.3
   uuid:
+  carousel_slider: ^4.2.1
+  curved_navigation_bar: ^1.0.3
 
 dev_dependencies:
   flutter_test:

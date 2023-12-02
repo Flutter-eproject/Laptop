@@ -26,6 +26,8 @@ class _LoginScreenState extends State<LoginScreen> {
       // SharedPreferences userLoginDetails = await SharedPreferences.getInstance();
       // userLoginDetails.setBool("userLoggedIn", true);
       // userLoginDetails.setString('uEmail', email.text.toString());
+      SharedPreferences userEmail = await SharedPreferences.getInstance();
+      userEmail.setString("User-Email", email.text.toString());
     } on FirebaseAuthException catch (ex){
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${ex.code.toString()}")));
     }
@@ -74,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         margin: const EdgeInsets.only(left: 30 , top: 20),
                         width: double.infinity,
                           child: Text("Login" , style: GoogleFonts.abyssinicaSil(
-                              fontSize: 50,
+                              fontSize: 25,
                               fontWeight: FontWeight.w700,
                               color: Colors.white
                           ),),
@@ -181,8 +183,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                         if(_formkey.currentState!.validate()){
                                           print(email.text.toString());
                                           print(password.text.toString());
-                                          email.clear();
-                                          password.clear();
                                           showDialog(context: context, builder: (context){
                                             return AlertDialog(
                                               title: const Text("User Login"),
