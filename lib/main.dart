@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:laptop/Description_Screen.dart';
+import 'package:laptop/Profile_Firebase_Firestore/Edit_Profile_Screen.dart';
+import 'package:laptop/home/Description_Screen.dart';
 import 'package:laptop/FeedBack_Screen.dart';
 import 'package:laptop/One_Time_Screen.dart';
 import 'package:laptop/Profile_Firebase_Firestore/Profile_Screen.dart';
@@ -24,7 +28,7 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: bottomNavigation(),
+      home: LoginScreen(),
 
     );
   }
@@ -48,11 +52,31 @@ class _bottomNavigationState extends State<bottomNavigation> {
 
   List<Widget> myScreens=[
     HomePage(),
-    HomePage(),
-    HomePage(),
-   HomePage()
-
+    Feedbackscreen(),
+    profileScreen()
   ];
+
+
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   Timer(
+  //       Duration(milliseconds: 5000), () =>
+  //     FirebaseAuth.instance.currentUser!= null? Navigator.pushReplacement(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => profileScreen(),
+  //         )
+  //     )
+  //         : Navigator.pushReplacement(
+  //         context,
+  //         MaterialPageRoute(builder: (context)=> LoginScreen(),)
+  //     )
+  //   );
+  //
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +91,9 @@ class _bottomNavigationState extends State<bottomNavigation> {
             items: [
               Icon(Icons.home_filled, color: selectedIndex!=0? Color(0xffffffff):
               Color(0xf0a9a9a9),),
-              Icon(Icons.card_travel,color:  selectedIndex!=1? Color(0xffffffff):
+              Icon(Icons.feedback,color: selectedIndex!=1? Color(0xffffffff):
               Color(0xffff4914),),
-              Icon(CupertinoIcons.heart,color: selectedIndex!=2? Color(0xffffffff):
-              Color(0xffff4914),),
-              Icon(Icons.person_2_outlined,color:  selectedIndex!=3? Color(0xffffffff):
+              Icon(Icons.person_2_outlined,color:  selectedIndex!=2? Color(0xffffffff):
               Color(0xffff4914),)
             ])
 
