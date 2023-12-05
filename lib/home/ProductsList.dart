@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:laptop/home/Description_Screen.dart';
 import 'package:laptop/main.dart';
 
 
@@ -14,6 +15,7 @@ class ProductsList extends StatefulWidget {
 }
 
 class _ProductsListState extends State<ProductsList> {
+
   var searchName = "";
   @override
   Widget build(BuildContext context) {
@@ -161,21 +163,6 @@ class _ProductsListState extends State<ProductsList> {
                             ],),
 
 
-                          // GestureDetector(
-                          //   onTap: (){
-                          //     Navigator.push(context, MaterialPageRoute(builder: (context)=> bottomNavigation(),));
-                          //   },
-                          //   child: Container(
-                          //     margin: EdgeInsets.symmetric(horizontal: 10),
-                          //     child: Text("Home > sofa", style: GoogleFonts.poppins(
-                          //       fontSize: 13,
-                          //       fontWeight: FontWeight.w600,
-                          //       color: Color(0xf0626262),
-                          //     ),),
-                          //   ),
-                          // ),
-
-
 
 
                           StreamBuilder(
@@ -199,31 +186,32 @@ class _ProductsListState extends State<ProductsList> {
                                       crossAxisSpacing: 20,
                                       childAspectRatio: 280/450,
                                       children: List.generate(dataLength, (index) {
-                                        String name = snapshot.data!.docs[index]['Product-Name'];
-                                        String img = snapshot.data!.docs[index]['Product-Image'];
-                                        String price = snapshot.data!.docs[index]['Product-Price'];
+                                        String Name = snapshot.data!.docs[index]['Product-Name'];
+                                        String Img = snapshot.data!.docs[index]['Product-Image'];
+                                        String Price = snapshot.data!.docs[index]['Product-Price'];
+                                        String Battery = snapshot.data!.docs[index]['Product-Battery'];
+                                        String Display = snapshot.data!.docs[index]['Product-Display'];
+                                        String Memory = snapshot.data!.docs[index]['Product-Memory'];
+                                        String Processor = snapshot.data!.docs[index]['Product-Processor'];
+                                        String Storage = snapshot.data!.docs[index]['Product-Storage'];
+                                        String Os = snapshot.data!.docs[index]['Product-operatingSystem'];
+                                        String Power = snapshot.data!.docs[index]['Product-powerSupply'];
                                         return  Stack(
                                           children: [
-                                            // Container(
-                                            //    width: 30,
-                                            //    height: 320,
-                                            //    decoration: BoxDecoration(
-                                            //      borderRadius: BorderRadius.circular(20),
-                                            //      color: Color(0xff002a62),
-                                            //        boxShadow: [
-                                            //          BoxShadow(
-                                            //            color: Color(0xff8f8989,),
-                                            //            spreadRadius: 4,
-                                            //            blurRadius: 10,
-                                            //            offset: Offset(4, 4),
-                                            //          )
-                                            //        ]
-                                            //    ),
-                                            //  ),
-
                                             GestureDetector(
                                               onTap: (){
-                                                // Navigator.push(context, MaterialPageRoute(builder: (context)=> sofaDescription(img: img[index], price: price[index], name: name[index]),));
+                                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                                                     DescriptionScreen(
+                                                       image: Img[index],
+                                                       price: Price[index],
+                                                       name: Name[index],
+                                                       battery: Battery[index] ,
+                                                       display: Display[index],
+                                                       memory: Memory[index],
+                                                       processor: Processor[index],
+                                                       storage: Storage[index],
+                                                       operatingSystem: Os[index],
+                                                       power: Power[index],),));
                                               },
                                               child: Container(
                                                 width: 350,
@@ -231,11 +219,7 @@ class _ProductsListState extends State<ProductsList> {
                                                 decoration: BoxDecoration(
                                                     borderRadius: BorderRadius.circular(15),
                                                     color: Color(0xffffffff),
-                                                    // image: DecorationImage(
-                                                    //     colorFilter: ColorFilter.mode(Color(
-                                                    //         0xf44d4d4d).withOpacity(0.2), BlendMode.darken),
-                                                    //     fit: BoxFit.cover,
-                                                    //     image: AssetImage("${img[index]}")),
+
                                                     boxShadow: [
                                                       BoxShadow(
                                                         color: Color(
@@ -263,15 +247,8 @@ class _ProductsListState extends State<ProductsList> {
                                                                   colorFilter: ColorFilter.mode(Color(
                                                                       0xffffffff).withOpacity(0.2), BlendMode.darken),
                                                                   fit: BoxFit.cover,
-                                                                  image: NetworkImage("$img")),
-                                                              // boxShadow: [
-                                                              //   BoxShadow(
-                                                              //     color: Color( 0xf44d4d4d),
-                                                              //     spreadRadius: 1,
-                                                              //     blurRadius: 5,
-                                                              //     offset: Offset(1, 1),
-                                                              //   )
-                                                              // ]
+                                                                  image: NetworkImage("$Img")),
+
                                                             ),
                                                           ),
                                                           Container(
@@ -300,7 +277,7 @@ class _ProductsListState extends State<ProductsList> {
                                                       // SizedBox(height: 30,),
                                                       Container(
                                                         margin: EdgeInsets.only(top: 6,left: 10,right: 10),
-                                                        child: Text("$name",style: GoogleFonts.poppins(
+                                                        child: Text("$Name",style: GoogleFonts.poppins(
                                                           fontSize: 14,
                                                           fontWeight: FontWeight.w500,
                                                           color:Theme.of(context).iconTheme.color,
@@ -318,7 +295,7 @@ class _ProductsListState extends State<ProductsList> {
                                                             color:  Color(0xf0343434),
                                                           ),),
                                                           SizedBox(width: 18,),
-                                                          Text("\$$price",style: GoogleFonts.poppins(
+                                                          Text("\$$Price",style: GoogleFonts.poppins(
                                                             fontSize: 16,
                                                             fontWeight: FontWeight.w600,
                                                             color: Color(0xf0003333),
